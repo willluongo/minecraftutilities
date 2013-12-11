@@ -1,0 +1,33 @@
+#!/bin/bash
+TMUX=/usr/local/bin/tmux
+if [ -z $1 ]
+then
+	echo "usage: minecraft_maintenance environment"
+else
+	WINDOW=$1
+	
+	$TMUX send-keys -t minecraft-$WINDOW "say 'Server shutting down in 5 minutes for maintenance!'
+	"
+	sleep 240
+	
+	$TMUX send-keys -t minecraft-$WINDOW "say 'Server shutting down in 1 minute for maintenance!'
+	"
+	sleep 30
+	
+	$TMUX send-keys -t minecraft-$WINDOW "say 'Server shutting down in 30 seconds for maintenance!'
+	"
+	sleep 20
+	
+	$TMUX send-keys -t minecraft-$WINDOW "say '!!Server shutting down in 10 seconds for maintenance!!'
+	"
+	sleep 10
+	
+	$TMUX send-keys -t minecraft-$WINDOW  "save-all
+	"
+	$TMUX send-keys -t minecraft-$WINDOW  "stop
+	"
+	sleep 10
+
+	$TMUX send-keys -t minecraft-$WINDOW "rsync -avH /home/minecraft/$WINDOW/ /backup/minecraft/$WINDOW/ && cd /home/minecraft/$WINDOW/ && /home/minecraft/bin/minecraft_server
+	"
+fi

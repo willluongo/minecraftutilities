@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ -z $1 ]
+then
+        echo "usage: minecraft_mapgen environment"
+else
+	MCENV=$1
+	/home/minecraft/overviewer/overviewer.py --config /home/minecraft/$MCENV/overviewer_config.py
+	/home/minecraft/overviewer/overviewer.py --config /home/minecraft/$MCENV/overviewer_config.py --genpoi
+fi
